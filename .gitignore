@@ -1,0 +1,69 @@
+# Laravel Framework
+/vendor
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/storage/pail
+.env
+.env.backup
+.env.production
+.env.local
+.env.*.local
+.auth.json
+Homestead.json
+Homestead.yaml
+
+# Logs
+*.log
+*.error
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE and Editor Files
+/.fleet
+/.idea
+/.nova
+/.phpactor.json
+/.phpunit.cache
+/.phpunit.result.cache
+/.vscode
+/.zed
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.php_cs.cache
+.php_cs.php
+
+# Compiled and Cache Files
+/bootstrap/cache/*.php
+/bootstrap/cache/packages.php
+/bootstrap/cache/services.php
+/*.compiled
+/*.map
+
+# Testing
+.phpunit.result.cache
+.phpunit.cache
+
+# Docker
+/docker-compose.override.yml
+
+# Backup files
+*.bak
+*.orig
