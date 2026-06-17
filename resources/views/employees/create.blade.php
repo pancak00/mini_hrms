@@ -2,36 +2,27 @@
 
 @section('content')
 <div class="container">
-    <h1>Employees</h1>
+    <h1>Add Employee</h1>
 
-    <a href="{{ route('employees.create') }}" class="btn btn-primary mb-3">Add Employee</a>
+    <form action="{{ route('employees.store') }}" method="POST">
+        @csrf
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Position</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($employees as $employee)
-                <tr>
-                    <td>{{ $employee->full_name }}</td>
-                    <td>{{ $employee->email }}</td>
-                    <td>{{ $employee->position }}</td>
-                    <td>
-                        <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+        <div class="mb-3">
+            <label for="full_name" class="form-label">Full Name</label>
+            <input type="text" name="full_name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="position" class="form-label">Position</label>
+            <input type="text" name="position" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Employee</button>
+    </form>
 </div>
 @endsection

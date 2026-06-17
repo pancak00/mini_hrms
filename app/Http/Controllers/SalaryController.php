@@ -56,8 +56,16 @@ class SalaryController extends Controller
             'allowance' => 'nullable|numeric',
             'deductions' => 'nullable|numeric',
         ]);
+        
+        $salary = Salary::findOrFail($id);
 
-        $salary->update($request->all());
+        $salary->basic_salary = $request->basic_salary;
+        $salary->allowance = $request->allowance ?? 0;
+        $salary->deductions = $request->deductions ?? 0;
+
+        $salary->net_salary = $request->basic_salary + $salary->allowance - $salary->deductions;
+        $salary->save();
+        
 
         return redirect()->route('salaries.index')
                          ->with('success', 'Salary record updated successfully.');

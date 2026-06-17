@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers;   
 
-use App\Models\Employee;
-use Illuminate\Http\Request;
+use App\Models\Employee;  
+use Illuminate\Http\Request;   
 
 class EmployeeController extends Controller
 {
@@ -20,13 +20,13 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|unique:employees',
             'position' => 'required|string|max:100'
         ]);
 
-        Employee::create($request->all());
+        Employee::create($validated);
 
         return redirect()->route('employees.index')
                          ->with('success', 'Employee created successfully.');
@@ -50,7 +50,7 @@ class EmployeeController extends Controller
             'position' => 'required|string|max:100'
         ]);
 
-        $employee->update($request->all());
+        $employee->update($request->only(['full_name', 'email', 'position']));
 
         return redirect()->route('employees.index')
                          ->with('success', 'Employee updated successfully.');
