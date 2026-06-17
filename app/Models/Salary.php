@@ -16,9 +16,12 @@ class Salary extends Model
         'net_salary'
     ];
 
+    public $timestamps = false;
+
+
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'employee_id');
+        return $this->belongsTo(Employee::class);
     }
     
 }

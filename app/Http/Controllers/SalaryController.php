@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Salary;
 use Illuminate\Http\Request;
+use App\Models\Employee;
 
 class SalaryController extends Controller
 {
@@ -12,13 +13,15 @@ class SalaryController extends Controller
      */
     public function index()
     {
+        
         $salaries = Salary::with('employee')->get();
         return view('salaries.index', compact('salaries'));
     }
 
     public function create()
     {
-        return view('salaries.create');
+        $employees = Employee::all();
+        return view('salaries.create', compact('employees'));
     }
 
     public function store(Request $request)
@@ -28,9 +31,18 @@ class SalaryController extends Controller
             'basic_salary' => 'required|numeric',
             'allowance' => 'nullable|numeric',
             'deductions' => 'nullable|numeric',
+            'net_salary' => 'nullable|numeric',
         ]);
 
-        Salary::create($request->all());
+        $net_salary = $request->basic_salary + ($request->allowance ?? 0) - ($request->deductions ?? 0);
+
+        Salary::create([
+            'employee_id' => $request->employee_id,
+            'basic_salary' => $request->basic_salary,
+            'allowance' => $request->allowance ?? 0,
+            'deductions' => $request->deductions ?? 0,
+            'net_salary' => $net_salary,
+        ]);
 
         return redirect()->route('salaries.index')
                          ->with('success', 'Salary record created successfully.');
@@ -44,32 +56,37 @@ class SalaryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Salary $salary)
+    public function edit($id)
     {
-        return view('salaries.edit', compact('salary'));
+        $salary = Salary::findOrFail($id);
+        $employees = Employee::all();
+        
+        return view('salaries.edit', compact('salary', 'employees'));
     }
 
     public function update(Request $request, Salary $salary)
-    {
-        $request->validate([
-            'basic_salary' => 'required|numeric',
-            'allowance' => 'nullable|numeric',
-            'deductions' => 'nullable|numeric',
-        ]);
-        
-        $salary = Salary::findOrFail($id);
+{
+    $request->validate([
+        'employee_id' => 'required|exists:employees,id',
+        'basic_salary' => 'required|numeric',
+        'allowance' => 'nullable|numeric',
+        'deductions' => 'nullable|numeric',
+    ]);
 
-        $salary->basic_salary = $request->basic_salary;
-        $salary->allowance = $request->allowance ?? 0;
-        $salary->deductions = $request->deductions ?? 0;
+    $netSalary = $request->basic_salary + ($request->allowance ?? 0) - ($request->deductions ?? 0);
 
-        $salary->net_salary = $request->basic_salary + $salary->allowance - $salary->deductions;
-        $salary->save();
-        
+    $salary->update([
+        'employee_id' => $request->employee_id,
+        'basic_salary' => $request->basic_salary,
+        'allowance' => $request->allowance ?? 0,
+        'deductions' => $request->deductions ?? 0,
+        'net_salary' => $netSalary,
+    ]);
 
-        return redirect()->route('salaries.index')
-                         ->with('success', 'Salary record updated successfully.');
-    }
+    return redirect()->route('salaries.index')
+                     ->with('success', 'Salary record updated successfully.');
+}
+
 
     public function destroy(Salary $salary)
     {

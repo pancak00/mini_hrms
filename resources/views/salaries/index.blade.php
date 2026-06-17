@@ -19,14 +19,14 @@
         <tbody>
             @foreach($salaries as $salary)
             <tr>
-                <td>{{ $salary->employee->full_name }}</td>
+                <td>{{ $salary->employee ? $salary->employee->full_name : 'No Employee' }}</td>
                 <td>{{ $salary->basic_salary }}</td>
                 <td>{{ $salary->allowance }}</td>
                 <td>{{ $salary->deductions }}</td>
-                <td>{{ $salary->net_salary }}</td>
+                <td>{{ $salary->basic_salary + $salary->allowance - $salary->deductions }}</td>
                 <td>
                     <a href="{{ route('salaries.edit', $salary->id) }} " class="btn btn-sm btn-warning">Edit</a>
-                    <form action="{{ route('salaries.destroy', $salaries->id) }} " method="POST" style="display: inline;">
+                    <form action="{{ route('salaries.destroy', $salary->id) }} " method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-sm btn-danger" type="submit">Delete</button>

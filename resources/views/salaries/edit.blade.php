@@ -20,6 +20,17 @@
     @method('PUT')
 
     <div class="mb-3">
+        <label for="employee_id" class="form-label">Employee</label>
+        <select name="employee_id" id="employee_id" class="form-select">
+            @foreach($employees as $employee)
+                <option value="{{ $employee->id }}" 
+                {{ $salary->employee_id == $salary->employee_id ? 'selected' : '' }}>
+                    {{ $employee->full_name }}
+                </option>
+            @endforeach
+        </select>
+
+    <div class="mb-3">
         <label for="basic_salary" class="form-label">Basic Salary</label>
         <input type="number" name="basic_salary" class="form-control" value="{{ old('basic_salary', $salary->basic_salary) }}" required>
 </div>

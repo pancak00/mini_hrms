@@ -2,34 +2,36 @@
 
 @section('content')
 <div class="container">
-    <h1>Assign Salary</h1>
+    <h2 class="mb-4">Assign Salary</h2>
 
-<form action="{{ route('salaries.store') }}" method="POST">
-    @csrf
-    
-    <div class="mb-3">
-        <label for="employee_id" class="form-label">Employee</label>
-    <select name="employee_id" class="form-control">
-        @foreach($employees as $employee)
-        <option value="{{ $employee->id}}">{{$employee->full_name}}</option>
-        @endforeach
-</select>
-</div>
+    <form action="{{ route('salaries.store') }}" method="POST">
+        @csrf
 
-    <div class="mb-3">
-        <label for="basic_salary" class="form-label">Basic Salary</label>
-    <input type="number" name="basic_salary" class="form-control" value="{{old('basic_salary')}}" required>
-    </div>
+        <div class="mb-3">
+            <label for="employee_id" class="form-label">Employee</label>
+            <select name="employee_id" id="employee_id" class="form-select">
+                @foreach($employees as $employee)
+                    <option value="{{ $employee->id }}">{{ $employee->full_name }}</option>
+                @endforeach
+            </select>
+        </div>
 
-    <div class="mb-3">
-        <label for="allowance" class="form-label">Allowance</label>
-    <input type="number" name="allowance" class="form-control" value="{{old('allowance') }}">
-    </div>
+        <div class="mb-3">
+            <label for="basic_salary" class="form-label">Basic Salary</label>
+            <input type="text" name="basic_salary" id="basic_salary" class="form-control">
+        </div>
 
-    <div class="mb-3">
-        <label for="deductions" class="form-label">Deductions</label>
-    <input type="number" name="deductions" class="form-control" value="{{old('deductions') }}">
-    </div>
+        <div class="mb-3">
+            <label for="allowance" class="form-label">Allowance</label>
+            <input type="text" name="allowance" id="allowance" class="form-control">
+        </div>
 
-        <button type="submit">Save</button>
+        <div class="mb-3">
+            <label for="deductions" class="form-label">Deductions</label>
+            <input type="text" name="deductions" id="deductions" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
+</div>
+@endsection
